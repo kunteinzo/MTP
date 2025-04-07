@@ -4,9 +4,12 @@
 package org.example
 
 import okhttp3.ResponseBody
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.converter.gson.GsonConverterFactory
 
 class App {
     val greeting: String
@@ -18,8 +21,11 @@ class App {
 fun main() {
     println(App().greeting)
     var status = 0
-    Retrofit.Builder().baseUrl("https://example.com/").build().create(Ser::class.java).get().enqueue(object: retrofit2.Callback<ResponseBody> {
-        override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
+    val retro: Retrofit = Retrofit.Builder().baseUrl("http://192.168.45.40:8000/").addConverterFactory(GsonConverterFactory.create()).build()
+    
+    /* 
+    retro.create(Ser::class.java).get().enqueue(object: Callback<ResponseBody> {
+        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
             println("Success: ${response.body()}")
             println("${response.body()?.string()}")
         }
@@ -29,10 +35,29 @@ fun main() {
             status = 1
         }
     })
-    //System.exit(status)
+        */
+
+    retro.create(Ser::class.java).msg().enqueue(object: Callback<Msg> {
+        override fun onResponse(call: Call<Msg>, response: Response<Msg>) {
+            println("Success: ${response.body()}")
+            println("${response.body()?.message}")
+        }
+
+        override fun onFailure(call: Call<Msg>, t: Throwable) {
+            println("Failure: ${t.message}")
+            status = 1
+        }
+    })
 }
 
 interface Ser {
-    @GET("/")
+    @GET("/test")
     fun get() : Call<ResponseBody>
+
+    @GET("/")
+    fun msg(): Call<Msg>
 }
+
+data class Msg(
+    val message: String
+)
