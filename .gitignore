@@ -20,4 +20,5 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# IDK I just think it wasn't necessary
 .kotlin

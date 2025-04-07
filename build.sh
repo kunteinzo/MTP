@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Build the project and extract the app to bin/
+
 # clear the screen
 clear
 
