@@ -15,6 +15,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo
 echo "Project built successfully."
 sleep 1
 clear
@@ -28,6 +29,7 @@ mv app/lib/* lib/
 chmod +x bin/app
 rm -rf app
 
+echo
 echo "App extracted successfully."
 sleep 1
 clear

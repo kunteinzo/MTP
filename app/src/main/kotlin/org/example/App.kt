@@ -17,18 +17,19 @@ class App {
 
 fun main() {
     println(App().greeting)
+    var status = 0
     Retrofit.Builder().baseUrl("https://example.com/").build().create(Ser::class.java).get().enqueue(object: retrofit2.Callback<ResponseBody> {
         override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
             println("Success: ${response.body()}")
             println("${response.body()?.string()}")
-            System.exit(0)
         }
 
         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
             println("Failure: ${t.message}")
-            System.exit(1)
+            status = 1
         }
     })
+    //System.exit(status)
 }
 
 interface Ser {
